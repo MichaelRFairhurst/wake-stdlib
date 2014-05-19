@@ -1,0 +1,33 @@
+every Map{K, V} is:
+
+	with K[] = [];
+	with V[] = [];
+
+	put($K, $V) {
+		var Num? = getPosOf($K);
+		if Num exists {
+			V[Num] = $V;
+		} else {
+			K[K.getSize()] = $K;
+			V[V.getSize()] = $V;
+		}
+	}
+
+	V? -- get($K) {
+		var Num? = getPosOf($K);
+		if Num exists {
+			return V[Num];
+		}
+		return nothing;
+	}
+
+	Num? -- getPosOf($K) {
+		for(var Num = 0; Num < K.getSize(); Num += 1) {
+			if(K[Num] == $K) return Num;
+		}
+		return nothing;
+	}
+
+	K[] -- getKeys() {
+		return K;
+	}

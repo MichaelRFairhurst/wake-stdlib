@@ -1,7 +1,7 @@
 PROGRAM := your-program-name
 LIBRARYFILES := ../compiler/bin/wakeobj/std.o
-LIBRARYTABLES := $(filter-out $(wildcard ../compiler/bin/waketable/*Test.table), $(wildcard ../compiler/bin/waketable/*.table) )
-TESTLIBRARYFILES :=
+LIBRARYTABLES := $(filter-out $(wildcard ../compiler/bin/waketable/*Test.table), $(wildcard ../compiler/bin/waketable/*.table) ) ../wUnit/bin/waketable/Asserts.table ../wUnit/bin/waketable/TestResultReporter.table
+TESTLIBRARYFILES := ../wUnit/bin/wakeobj/Asserts.o ../wUnit/bin/wakeobj/TestResultReporter.o
 
 TABLEDIR := bin/waketable
 OBJECTDIR := bin/wakeobj
@@ -24,7 +24,7 @@ bin/$(PROGRAM): $(OBJECTFILES) $(TABLEFILES) $(LIBRARYFILES) tests
 tests: bin/$(PROGRAM)-test
 	node bin/$(PROGRAM)-test
 
-bin/$(PROGRAM)-test: $(OBJECTFILES) $(TESTLIBRARYFILES) $(LIBRARYFILES) $(TABLEFILES) $(TESTOBJECTFILES) $(TESTTABLEFILES)
+bin/$(PROGRAM)-test: $(OBJECTFILES) $(TESTLIBRARYFILES) $(LIBRARYFILES) $(TABLEFILES) $(TESTOBJECTFILES) $(TESTTABLEFILES) bin/waketable/System.table bin/waketable/Asserts.table bin/waketable/Printer.table
 	wunit-compiler
 	wake bin/TestSuite.wk -d $(TABLEDIR) -o bin/TestSuite.o
 	wake -l -d $(TABLEDIR) $(OBJECTFILES) $(TESTOBJECTFILES) $(TESTLIBRARYFILES) $(LIBRARYFILES) bin/TestSuite.o -o bin/$(PROGRAM)-test -c TestSuite -m 'tests()'
