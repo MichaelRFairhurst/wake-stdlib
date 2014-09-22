@@ -31,3 +31,7 @@ every Map{K, V} is:
 	K[] -- getKeys() {
 		return K[];
 	}
+
+	V[] -- getValues() {
+		return V[];
+	}
