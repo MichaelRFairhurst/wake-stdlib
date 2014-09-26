@@ -1,0 +1,7 @@
+every UndefinedIndexException (an Exception) is:
+
+	needs public Num:index index;
+
+	Text -- getMessage() {
+		return "Accessing undefined index " + index.toString() + " of a list";
+	}

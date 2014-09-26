@@ -1,0 +1,20 @@
+import Asserts;
+import UndefinedIndexException;
+
+every UndefinedIndexExceptionTest is:
+
+	with public Num index = 0;
+
+	provides UndefinedIndexException, Num:index <- { return index; };
+
+	~[ test undefined index exception message as 0 ]~(Asserts) {
+		index = 0;
+		var UndefinedIndexException e from this;
+		Asserts.that(e.getMessage())Equals("Accessing undefined index 0 of a list");
+	}
+
+	~[ test undefined index exception message as 3 ]~(Asserts) {
+		index = 3;
+		var UndefinedIndexException e from this;
+		Asserts.that(e.getMessage())Equals("Accessing undefined index 3 of a list");
+	}
