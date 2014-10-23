@@ -4,8 +4,8 @@ PROGRAM := stdlib
 EXECUTABLE := false
 
 # Include all wake libraries by default since there aren't many just yet
-LIBRARYFILES := $(filter-out Map,$(wildcard lib/obj/*.o))
-LIBRARYTABLES := $(filter-out Map,$(wildcard lib/table/*.table))
+LIBRARYFILES := $(filter-out Map UndefinedIndexException,$(wildcard lib/obj/*.o))
+LIBRARYTABLES := $(filter-out Map UndefinedIndexException,$(wildcard lib/table/*.table))
 TESTLIBRARYFILES :=
 
 ##
