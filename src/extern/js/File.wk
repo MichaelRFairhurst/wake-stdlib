@@ -1,0 +1,67 @@
+every File is:
+
+	#> we need to generate needs for this to be possible
+	needs
+
+	~File~ = function$ ~File~(a) {
+		var$ b = 0, c = 1, d = fs.openSync(a.`getPath()`(), 'a+');
+
+		this.`getPath()` = function() {
+			return$ a;
+		};
+
+		this.`read(Num)` = function(e) {
+			var$ f = new$ Buffer(e);
+			if(!c) { throw$ Error("File$ no$ longer$ open"); }
+			fs.readSync(d, f, 0, e, b);
+			b += e;
+			return$ f.toString('utf8', 0, e);
+		};
+
+		this.`readUnsignedChar()` = function() {
+			var$ e = new$ Buffer(1);
+			if(!c) { throw$ Error("File$ no$ longer$ open"); }
+			fs.readSync(d, e, 0, 1, b);
+			b++;
+			return$ e.readUInt8(0);
+		};
+
+		this.`write(Text)` = function(e) {
+			if(!c) { throw$ Error("File$ no$ longer$ open"); }
+			var$ f = new$ Buffer(e, 'utf8');
+			fs.writeSync(d, f, 0, e.length, b);
+			b += e.length;
+		};
+
+		this.`writeUnsignedChar(Num)` = function(e) {
+			if(!c) { throw$ Error("File$ no$ longer$ open"); }
+			var$ f = new$ Buffer(1);
+			f.writeUInt8(e, 0);
+			b++;
+		};
+
+		this.`close()` = function() {
+			if(!c) { throw$ Error("File$ no$ longer$ open"); }
+			fs.close(d);
+			c = 0;
+		};
+
+		this.`tell()` = function() {
+			if(!c) { throw$ Error("File$ no$ longer$ open"); }
+			return$ b;
+		};
+
+		this.`seek(Num)` = function(e) {
+			if(!c) {
+				throw$ Error("File$ no$ longer$ open");
+			}
+			b = e;
+		};
+
+		this.`eof()` = function() {
+			var$ f = new$ Buffer(1);
+			return$ fs.readSync(d, f, 0, 1, b) === 0;
+		}
+
+	};
+	##
