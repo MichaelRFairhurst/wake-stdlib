@@ -1,4 +1,0 @@
-every System is:
-
-	@CustomJavascript('if(typeof process != "undefined" && typeof process.exit != "undefined") process.exit({{code}});')
-	exit(Num code);
