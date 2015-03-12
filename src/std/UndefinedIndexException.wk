@@ -1,3 +1,5 @@
+module std;
+
 every UndefinedIndexException (an Exception) is:
 
 	needs public Num:index index;

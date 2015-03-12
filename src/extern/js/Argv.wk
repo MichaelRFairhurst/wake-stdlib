@@ -1,4 +1,0 @@
-every Argv is:
-
-	@CustomJavascript('return process.argv;')
-	List{Text} -- getArgv();

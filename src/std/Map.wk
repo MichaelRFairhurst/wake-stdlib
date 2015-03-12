@@ -1,3 +1,5 @@
+module std;
+
 every Map{K, V} is:
 
 	with K[] = [];
