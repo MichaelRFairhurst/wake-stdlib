@@ -1,5 +1,7 @@
-import Asserts;
-import UndefinedIndexException;
+module std;
+
+import wunit.Asserts;
+import std.UndefinedIndexException;
 
 @TestClass
 every UndefinedIndexExceptionTest is:
