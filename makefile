@@ -1,8 +1,8 @@
-PROGRAM := stdlib
+PROGRAM := wake-js-gen
 
 # set to false or it will be linked with a main()
-EXECUTABLE := false
-MAINCLASS := yourmodule.Main
+EXECUTABLE := true
+MAINCLASS := Main
 MAINMETHOD := "main()"
 
 # Include all wake libraries by default since there aren't many just yet
@@ -72,22 +72,27 @@ endif
 ##
 SOURCEFILES := $(wildcard $(SRCDIR)/*.wk) $(wildcard $(SRCDIR)/*/*.wk)
 TESTFILES := $(wildcard $(TESTDIR)/*.wk) $(wildcard $(TESTDIR)/*/*.wk)
-EXTSOURCEFILES := $(wildcard $(SRCDIR)/extern/js/*.wk) $(wildcard $(SRCDIR)/extern/js/*/*.wk)
-EXTTESTFILES := $(wildcard $(TESTDIR)/extern/js/*.wk) $(wildcard $(TESTDIR)/extern/js/*/*.wk)
+JSSOURCEFILES := $(wildcard $(SRCDIR)/extern/js/*.wk) $(wildcard $(SRCDIR)/extern/js/*/*.wk)
+JSTESTFILES := $(wildcard $(TESTDIR)/extern/js/*.wk) $(wildcard $(TESTDIR)/extern/js/*/*.wk)
+INTERNALSOURCEFILES := $(wildcard $(SRCDIR)/extern/internals/*.wk) $(wildcard $(SRCDIR)/extern/internals/*/*.wk)
+INTERNALJSSOURCEFILES := $(wildcard $(SRCDIR)/extern/internals/*.js) $(wildcard $(SRCDIR)/extern/internals/*/*.js)
 
 ##
 # Calculate our artifacts
 ##
-DEPFILES := ${SOURCEFILES:$(SRCDIR)/%.wk=$(SRCDEPDIR)/%.d} ${TESTFILES:$(TESTDIR)/%.wk=$(TESTDEPDIR)/%.d} ${EXTSOURCEFILES:$(SRCDIR)/extern/js/%.wk=$(SRCDEPDIR)/%.d} ${EXTTESTFILES:$(TESTDIR)/extern/js/%.wk=$(TESTDEPDIR)/%.d}
+DEPFILES := ${SOURCEFILES:$(SRCDIR)/%.wk=$(SRCDEPDIR)/%.d} ${TESTFILES:$(TESTDIR)/%.wk=$(TESTDEPDIR)/%.d} ${JSSOURCEFILES:$(SRCDIR)/extern/js/%.wk=$(SRCDEPDIR)/%.d} ${JSTESTFILES:$(TESTDIR)/extern/js/%.wk=$(TESTDEPDIR)/%.d}
 OBJECTFILES := ${SOURCEFILES:$(SRCDIR)/%.wk=$(OBJECTDIR)/%.o}
 TESTOBJECTFILES := ${TESTFILES:$(TESTDIR)/%.wk=$(OBJECTDIR)/%.o}
 TABLEFILES := ${SOURCEFILES:$(SRCDIR)/%.wk=$(TABLEDIR)/%.table}
 TESTTABLEFILES := ${TESTFILES:$(TESTDIR)/%.wk=$(TABLEDIR)/%.table}
 
-EXTOBJECTFILES := ${EXTSOURCEFILES:$(SRCDIR)/extern/js/%.wk=$(OBJECTDIR)/%.o}
-EXTTESTOBJECTFILES := ${EXTTESTFILES:$(TESTDIR)/extern/js/%.wk=$(OBJECTDIR)/%.o}
-EXTTABLEFILES := ${EXTSOURCEFILES:$(SRCDIR)/extern/js/%.wk=$(TABLEDIR)/%.table}
-EXTTESTTABLEFILES := ${EXTTESTFILES:$(TESTDIR)/extern/js/%.wk=$(TABLEDIR)/%.table}
+JSOBJECTFILES := ${JSSOURCEFILES:$(SRCDIR)/extern/js/%.wk=$(OBJECTDIR)/%.o}
+JSTESTOBJECTFILES := ${JSTESTFILES:$(TESTDIR)/extern/js/%.wk=$(OBJECTDIR)/%.o}
+JSTABLEFILES := ${JSSOURCEFILES:$(SRCDIR)/extern/js/%.wk=$(TABLEDIR)/%.table}
+JSTESTTABLEFILES := ${JSTESTFILES:$(TESTDIR)/extern/js/%.wk=$(TABLEDIR)/%.table}
+
+INTERNALJSOBJECTFILES := ${INTERNALJSSOURCEFILES:$(SRCDIR)/extern/internals/%.js=$(OBJECTDIR)/%.o}
+INTERNALTABLEFILES := ${INTERNALSOURCEFILES:$(SRCDIR)/extern/internals/%.wk=$(TABLEDIR)/%.table}
 
 
 ## ENTRY POINT ##
@@ -122,7 +127,7 @@ ifneq ($(MOCKCLASSNAMES),)
 endif
 
 ## Build a package ##
-package: $(OBJECTFILES) $(TABLEFILES) $(RUNTESTS) $(EXTOBJECTFILES) $(EXTTABLEFILES)
+package: $(OBJECTFILES) $(TABLEFILES) $(RUNTESTS) $(JSOBJECTFILES) $(INTERNALJSOBJECTFILES) $(JSTABLEFILES) $(INTERNALTABLEFILES)
 	#@echo $(foreach module,$(subst $(OBJECTDIR)/,,$(wildcard $(OBJECTDIR)/*)), \
 		#$(shell mkdir bin/packages/$(module)) \
 		#$(shell mkdir bin/packages/$(module)/obj) \
@@ -131,8 +136,8 @@ package: $(OBJECTFILES) $(TABLEFILES) $(RUNTESTS) $(EXTOBJECTFILES) $(EXTTABLEFI
 		#$(shell cp $(OBJECTDIR)/$(module)/*.o bin/packages/$(module)/obj))
 
 ## Compile our main executable ##
-bin/$(PROGRAM): $(OBJECTFILES) $(TABLEFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(RUNTESTS) $(EXTOBJECTFILES) $(EXTTABLEFILES)
-	$(WAKE) -l -d $(TABLEDIR) -o bin/$(PROGRAM) $(OBJECTFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(EXTOBJECTFILES) -c $(MAINCLASS) -m $(MAINMETHOD)
+bin/$(PROGRAM): $(OBJECTFILES) $(TABLEFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(RUNTESTS) $(JSOBJECTFILES) $(INTERNALJSOBJECTFILES) $(JSTABLEFILES) $(INTERNALTABLEFILES)
+	$(WAKE) -l -d $(TABLEDIR) -o bin/$(PROGRAM) $(OBJECTFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(JSOBJECTFILES) $(INTERNALJSOBJECTFILES) -c $(MAINCLASS) -m $(MAINMETHOD)
 
 
 ##
@@ -144,10 +149,10 @@ bin/$(PROGRAM): $(OBJECTFILES) $(TABLEFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILE
 tests: bin/$(PROGRAM)-test
 	$(NODE) bin/$(PROGRAM)-test
 
-bin/$(PROGRAM)-test: $(OBJECTFILES) $(TESTLIBRARYFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(TABLEFILES) $(TESTOBJECTFILES) $(TESTTABLEFILES) $(EXTOBJECTFILES) $(EXTTESTOBJECTFILES) $(EXTTABLEFILES) $(EXTTESTTABLEFILES)
+bin/$(PROGRAM)-test: $(OBJECTFILES) $(TESTLIBRARYFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(TABLEFILES) $(TESTOBJECTFILES) $(TESTTABLEFILES) $(JSOBJECTFILES) $(JSTESTOBJECTFILES) $(INTERNALJSOBJECTFILES) $(JSTABLEFILES) $(JSTESTTABLEFILES)
 	$(WUNIT)
 	$(WAKE) bin/TestSuite.wk -d $(TABLEDIR) -o bin/TestSuite.o
-	$(WAKE) -l -d $(TABLEDIR) $(OBJECTFILES) $(TESTOBJECTFILES) $(EXTOBJECTFILES) $(EXTTESTOBJECTFILES) $(TESTLIBRARYFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(MOCKOBJECTFILES) $(MOCKPROVIDEROBJ) bin/TestSuite.o -o bin/$(PROGRAM)-test -c TestSuite -m 'tests()'
+	$(WAKE) -l -d $(TABLEDIR) $(OBJECTFILES) $(TESTOBJECTFILES) $(JSOBJECTFILES) $(JSTESTOBJECTFILES) $(INTERNALJSOBJECTFILES) $(TESTLIBRARYFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(MOCKOBJECTFILES) $(MOCKPROVIDEROBJ) bin/TestSuite.o -o bin/$(PROGRAM)-test -c TestSuite -m 'tests()'
 
 
 ##
@@ -231,6 +236,15 @@ $(OBJECTDIR)/%.o: $(TABLEDIR)/%.table $(TESTDIR)/extern/js/%.wk
 
 
 ##
+# Internals (for wake std lib only, unless you are brave)
+##
+$(TABLEDIR)/%.table: $(SRCDIR)/extern/internals/%.wk
+	$(WAKE) $< -d $(TABLEDIR) -t
+
+$(OBJECTDIR)/%.o: $(SRCDIR)/extern/internals/%.js
+	./js_to_wakeobj.sh $< $@
+
+##
 # Compile our mocks. This first rule generates a .o file and three
 # .table files. The last three rules tell make that the .table files
 # are made when the .o file is made.
@@ -248,7 +262,6 @@ $(TABLEDIR)/%Stubber.table: $(OBJECTDIR)/%Mock.o
 
 $(TABLEDIR)/%Verifier.table: $(OBJECTDIR)/%Mock.o
 	@:
-
 
 ##
 # Mock source generation
@@ -272,7 +285,6 @@ $(OBJECTDIR)/wkto.gen/MockProvider.o: $(GENDIR)/wkto.gen/MockProvider.wk
 	$(WAKE) $< -d $(TABLEDIR) -o $@
 
 $(TABLEDIR)/wkto.gen/MockProvider.table: $(OBJECTDIR)/wkto.gen/MockProvider.o
-
 
 
 ##
