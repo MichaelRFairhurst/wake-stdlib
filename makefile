@@ -1,7 +1,7 @@
 PROGRAM := wake-js-gen
 
 # set to false or it will be linked with a main()
-EXECUTABLE := true
+EXECUTABLE := false
 MAINCLASS := Main
 MAINMETHOD := "main()"
 
@@ -23,7 +23,6 @@ OBJECTDIR := bin/wakeobj
 SRCDEPDIR := bin/srcdep
 TESTDEPDIR := bin/testdep
 RUNTESTS := tests
-
 
 ##
 # Use command names based on OS
@@ -74,8 +73,8 @@ SOURCEFILES := $(wildcard $(SRCDIR)/*.wk) $(wildcard $(SRCDIR)/*/*.wk)
 TESTFILES := $(wildcard $(TESTDIR)/*.wk) $(wildcard $(TESTDIR)/*/*.wk)
 JSSOURCEFILES := $(wildcard $(SRCDIR)/extern/js/*.wk) $(wildcard $(SRCDIR)/extern/js/*/*.wk)
 JSTESTFILES := $(wildcard $(TESTDIR)/extern/js/*.wk) $(wildcard $(TESTDIR)/extern/js/*/*.wk)
-INTERNALSOURCEFILES := $(wildcard $(SRCDIR)/extern/internals/*.wk) $(wildcard $(SRCDIR)/extern/internals/*/*.wk)
-INTERNALJSSOURCEFILES := $(wildcard $(SRCDIR)/extern/internals/*.js) $(wildcard $(SRCDIR)/extern/internals/*/*.js)
+#INTERNALSOURCEFILES := $(wildcard $(SRCDIR)/extern/internals/*.wk) $(wildcard $(SRCDIR)/extern/internals/*/*.wk)
+#INTERNALJSSOURCEFILES := $(wildcard $(SRCDIR)/extern/internals/*.js) $(wildcard $(SRCDIR)/extern/internals/*/*.js)
 
 ##
 # Calculate our artifacts
@@ -242,7 +241,7 @@ $(TABLEDIR)/%.table: $(SRCDIR)/extern/internals/%.wk
 	$(WAKE) $< -d $(TABLEDIR) -t
 
 $(OBJECTDIR)/%.o: $(SRCDIR)/extern/internals/%.js
-	./js_to_wakeobj.sh $< $@
+	cat $< | ./js_to_wakeobj.sh > $@
 
 ##
 # Compile our mocks. This first rule generates a .o file and three
@@ -301,3 +300,14 @@ clean:
 	$(RMR) bin/$(PROGRAM)-test || :
 	$(RMR) $(GENDIR)/* || :
 	find . -name '*.md5' -delete
+
+
+##
+# This stuff is special to the std lib
+##
+
+bin/waketable/lang/Num.table bin/waketable/lang/Text.table bin/waketable/lang/Bool.table: src/extern/internals/lang/Primitives.wk
+	mkdir bin/waketable/lang || :
+	$(WAKE) -t $< -d $(TABLEDIR)
+
+bin/waketable/lang/List.table : bin/waketable/lang/Num.table bin/waketable/lang/Text.table bin/waketable/lang/Bool.table
