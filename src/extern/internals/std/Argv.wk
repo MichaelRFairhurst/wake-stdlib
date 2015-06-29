@@ -14,8 +14,6 @@ module std;
 #
 ##
 
-import lang.Text;
-
 extern Argv is:
 
 	Text[] -- getArgv();

@@ -14,10 +14,6 @@ module io;
 #
 ##
 
-import lang.Text;
-import lang.Num;
-import lang.Bool;
-
 extern FilePath:
 
 	needs Text:DoNotUse filename;
