@@ -24,8 +24,8 @@ every Map{K, V} is:
 	}
 
 	Num? -- getPosOf($K) {
-		for(var Num = 0; Num < K[].getSize(); Num += 1) {
-			if K[Num] == $K then return Num;
+		foreach K[] at i {
+			if K == $K then return i;
 		}
 		return nothing;
 	}
