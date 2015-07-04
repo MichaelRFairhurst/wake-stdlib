@@ -15,7 +15,7 @@ module lang;
 
 extern Bool is:
 
-	Text -- toString();
+	Text -- toText();
 
 extern Num is:
 
@@ -34,9 +34,11 @@ extern Num is:
 
 	Num -- numberOfDigits();
 
-	Text -- toString();
+	Text -- toText();
 
 	Num[] -- range(Num);
+
+	Char -- fromAsciiCode();
 
 extern Text is:
 
@@ -53,10 +55,26 @@ extern Text is:
 
 	Num? -- parseNum();
 
-	Text? -- charAt(Num);
+	Char? -- charAt(Num);
+	Char[] -- toCharArray();
 
 	Text[] -- split(Text);
+	Text[] -- split(Char);
 
 	Num? -- indexOf(Text);
+	Num? -- indexOf(Char);
 
+	Text -- join(Text[]);
+
+extern Char is:
+
+	Char -- toUpper();
+	Char -- toLower();
+	Bool -- isUpper();
+	Bool -- isLower();
+	Bool -- isAlpha();
+	Bool -- isDigit();
+	Num -- toAsciiCode();
+
+	Text -- toText();
 	Text -- join(Text[]);
