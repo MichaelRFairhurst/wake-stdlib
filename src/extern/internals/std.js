@@ -160,7 +160,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 		};
 
 		this.`toCharArray()` = function() {
-			var$ a.split('');
+			return$ a.split('');
 		}
 	};
 
