@@ -146,7 +146,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			return$ a[b];
 		};
 
-		this.`indexOf(Text)` = this.`split(Char)` = function(b) {
+		this.`indexOf(Text)` = this.`indexOf(Char)` = function(b) {
 			var$ c = a.indexOf(b);
 			return$ c === -1 ? null : c;
 		};
