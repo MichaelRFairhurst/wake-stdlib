@@ -44,6 +44,10 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 	};
 
 	~lang.Num~ = function$ ~lang.Num~(a) {
+		this.`fromAsciiCode()` = function() {
+			return$ String.fromCharCode(a);
+		};
+
 		this.`squared()` = function() {
 			return$ a * a;
 		};
@@ -94,7 +98,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			return$ Math.round(a);
 		};
 
-		this.`toString()` = function() {
+		this.`toText()` = function() {
 			return$ a+"";
 		};
 
@@ -142,12 +146,12 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			return$ a[b];
 		};
 
-		this.`indexOf(Text)` = function(b) {
+		this.`indexOf(Text)` = this.`split(Char)` = function(b) {
 			var$ c = a.indexOf(b);
 			return$ c === -1 ? null : c;
 		};
 
-		this.`split(Text)` = function(b) {
+		this.`split(Text)` = this.`split(Char)` = function(b) {
 			return$ a.split(b);
 		};
 
@@ -155,6 +159,9 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			return$ b.join(a);
 		};
 
+		this.`toCharArray()` = function() {
+			var$ a.split('');
+		}
 	};
 
 	~lang.List~ = function$ ~lang.List~(a) {
@@ -301,7 +308,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			if(!c) { throw$ Error("File$ no$ longer$ open"); }
 			fs.readSync(d, f, 0, e, b);
 			b += e;
-			return$ f.toString('utf8', 0, e);
+			return$ f.toText('utf8', 0, e);
 		};
 
 		this.`readUnsignedChar()` = function() {
@@ -353,7 +360,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 
 	~lang.Bool~ = function$ ~lang.Bool~(a) {
 
-		this.`toString()` = function() {
+		this.`toText()` = function() {
 			return$ a?"true":"false";
 		};
 
@@ -407,6 +414,44 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 				return$ process.argv;
 		};
 
+	};
+
+	~lang.Char~ = function$ ~lang.Char~(a) {
+		this.`toAsciiCode()` = function() {
+			return$ a.charCodeAt(0);
+		};
+
+		this.`toUpper()` = function() {
+			return$ a.toUpperCase();
+		};
+
+		this.`toLower()` = function() {
+			return$ a.toLowerCase();
+		};
+
+		this.`isUpper()` = function() {
+			return$ /[A-Z]/.test(a);
+		};
+
+		this.`isLower()` = function() {
+			return$ /[a-z]/.test(a);
+		};
+
+		this.`isAlpha()` = function() {
+			return$ /[a-zA-Z]/.test(a);
+		};
+
+		this.`isDigit()` = function() {
+			return$ /[0-9]/.test(a);
+		};
+
+		this.`toText()` = function() {
+			return$ a;
+		};
+
+		this.`join(Text[])` = function(b) {
+			return$ b.join(a);
+		};
 	};
 
 
