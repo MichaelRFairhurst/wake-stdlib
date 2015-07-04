@@ -53,6 +53,8 @@ extern File:
 
 	write(Text);
 
+	write(Char);
+
 	writeUnsignedChar(Num);
 
 	close();

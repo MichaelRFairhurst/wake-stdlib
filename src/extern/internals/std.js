@@ -17,6 +17,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 
 	~io.Printer~ = function$ ~io.Printer~(){
 		this.`print(Text)` =
+		this.`print(Char)` =
 		this.`print(Num)` = function(a) {
 			if(typeof$ process != 'undefined'
 					&& typeof$ process.stdout != 'undefined'
@@ -27,6 +28,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 		};
 
 		this.`printLine(Text)` =
+		this.`printLine(Char)` =
 		this.`printLine(Num)` = function(a) {
 			if(typeof$ process != 'undefined'
 					&& typeof$ process.stdout != 'undefined'
@@ -319,6 +321,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			return$ e.readUInt8(0);
 		};
 
+		this.`write(Char)` =
 		this.`write(Text)` = function(e) {
 			if(!c) { throw$ Error("File$ no$ longer$ open"); }
 			var$ f = new$ Buffer(e, 'utf8');
