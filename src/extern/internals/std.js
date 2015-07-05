@@ -310,7 +310,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			if(!c) { throw$ Error("File$ no$ longer$ open"); }
 			fs.readSync(d, f, 0, e, b);
 			b += e;
-			return$ f.toText('utf8', 0, e);
+			return$ f.toString('utf8', 0, e);
 		};
 
 		this.`readUnsignedChar()` = function() {
