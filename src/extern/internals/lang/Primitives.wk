@@ -19,7 +19,6 @@ extern Bool is:
 
 extern Num is:
 
-	Num -- modulo(Num);
 	Num -- floor();
 	Num -- ceil();
 	Num -- round();
@@ -36,7 +35,25 @@ extern Num is:
 
 	Text -- toText();
 
-	Num[] -- range(Num);
+	Bool -- isWithin(Num)Of(Num);
+
+extern Int is:
+
+	Int -- squared();
+	Int -- abs();
+
+	Int -- orMaxOf(Int);
+	Int -- orMaxOf(Int[]);
+
+	Int -- orMinOf(Int);
+	Int -- orMinOf(Int[]);
+
+	Int -- numberOfDigits();
+
+	Text -- toText();
+
+	Int[] -- range(Int);
+	times(fn() whatToDo);
 
 	Char -- fromAsciiCode();
 
@@ -48,21 +65,22 @@ extern Text is:
 
 	Text -- trim();
 
-	Num -- getSize();
+	Int -- getSize();
 
-	Text -- substr(Num start);
-	Text -- substr(Num start, Num end);
+	Text -- substr(Int start);
+	Text -- substr(Int start, Int end);
 
 	Num? -- parseNum();
+	Int? -- parseInt();
 
-	Char? -- charAt(Num);
+	Char? -- charAt(Int);
 	Char[] -- toCharArray();
 
 	Text[] -- split(Text);
 	Text[] -- split(Char);
 
-	Num? -- indexOf(Text);
-	Num? -- indexOf(Char);
+	Int? -- indexOf(Text);
+	Int? -- indexOf(Char);
 
 	Text -- join(Text[]);
 
@@ -74,7 +92,7 @@ extern Char is:
 	Bool -- isLower();
 	Bool -- isAlpha();
 	Bool -- isDigit();
-	Num -- toAsciiCode();
+	Int -- toAsciiCode();
 
 	Text -- toText();
 	Text -- join(Text[]);

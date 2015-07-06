@@ -14,17 +14,17 @@ module lang;
 #
 ##
 
-import lang.Num;
+import lang.Int;
 import lang.Bool;
 
 extern List{T} is:
 
-	Num -- getSize();
+	Int -- getSize();
 	Bool -- contains(T);
 	T[] -- intersect(T[]);
 	T[] -- filter(Bool -- fn(T) filterer);
 	Bool -- any(Bool -- fn(T) checker);
-	sort(Num -- fn(T,T) sorter);
+	sort(Int -- fn(T,T) sorter);
 	push(T);
 	pop(T);
 	{R} R[] -- map(R -- fn(T) mapper);
