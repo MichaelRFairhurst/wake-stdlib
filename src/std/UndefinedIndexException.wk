@@ -2,7 +2,7 @@ module std;
 
 every UndefinedIndexException (an Exception) is:
 
-	needs public Num:index index;
+	needs public Int index;
 
 	Text -- getMessage() {
 		return "Accessing undefined index " + index.toText() + " of a list";

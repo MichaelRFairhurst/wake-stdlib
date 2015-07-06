@@ -6,9 +6,9 @@ every Map{K, V} is:
 	with V[] = [];
 
 	put($K, $V) {
-		var Num? = getPosOf($K);
-		if Num exists {
-			V[Num] = $V;
+		var Int? = getPosOf($K);
+		if Int exists {
+			V[Int] = $V;
 		} else {
 			K[].push($K);
 			V[].push($V);
@@ -16,14 +16,14 @@ every Map{K, V} is:
 	}
 
 	V? -- get($K) {
-		var Num? = getPosOf($K);
-		if Num exists {
-			return V[Num];
+		var Int? = getPosOf($K);
+		if Int exists {
+			return V[Int];
 		}
 		return nothing;
 	}
 
-	Num? -- getPosOf($K) {
+	Int? -- getPosOf($K) {
 		foreach K[] at i {
 			if K == $K then return i;
 		}
