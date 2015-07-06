@@ -35,7 +35,7 @@ extern Num is:
 
 	Text -- toText();
 
-	Bool -- isWithin(Num)Of(Num);
+	Bool -- isWithin(Num error)Of(target Num);
 
 extern Int is:
 
