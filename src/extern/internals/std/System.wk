@@ -20,4 +20,4 @@ module std;
 ##
 extern System is:
 
-	exit(Num);
+	exit(Int);

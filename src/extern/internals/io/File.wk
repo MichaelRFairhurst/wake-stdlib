@@ -47,20 +47,20 @@ extern File:
 
 	FilePath -- getPath();
 
-	Text -- read(Num);
+	Text -- read(Int);
 
-	Num -- readUnsignedChar();
+	Int -- readUnsignedChar();
 
 	write(Text);
 
 	write(Char);
 
-	writeUnsignedChar(Num);
+	writeUnsignedChar(Int);
 
 	close();
 
-	Num -- tell();
+	Int -- tell();
 
-	seek(Num);
+	seek(Int);
 
 	Bool -- eof();

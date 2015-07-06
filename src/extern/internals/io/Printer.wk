@@ -26,3 +26,5 @@ extern Printer is:
 	printLine(Char);
 	print(Num);
 	printLine(Num);
+	print(Int);
+	printLine(Int);

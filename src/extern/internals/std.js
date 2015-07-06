@@ -18,6 +18,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 	~io.Printer~ = function$ ~io.Printer~(){
 		this.`print(Text)` =
 		this.`print(Char)` =
+		this.`print(Int)` =
 		this.`print(Num)` = function(a) {
 			if(typeof$ process != 'undefined'
 					&& typeof$ process.stdout != 'undefined'
@@ -29,6 +30,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 
 		this.`printLine(Text)` =
 		this.`printLine(Char)` =
+		this.`printLine(Int)` =
 		this.`printLine(Num)` = function(a) {
 			if(typeof$ process != 'undefined'
 					&& typeof$ process.stdout != 'undefined'
@@ -39,15 +41,74 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 	};
 
 	~std.System~ = function$ ~std.System~() {
-		this.`exit(Num)` = function(a) {
+		this.`exit(Int)` = function(a) {
 			if(typeof$ process!='undefined' && typeof$ process.exit!='undefined')
 				process.exit(a);
 		};
 	};
 
-	~lang.Num~ = function$ ~lang.Num~(a) {
+	~lang.Int~ = function$ ~lang.Int~(a) {
 		this.`fromAsciiCode()` = function() {
 			return$ String.fromCharCode(a);
+		};
+
+		this.`squared()` = function() {
+			return$ a * a;
+		};
+
+		this.`abs()` = function() {
+			return$ a < 0 ? a * -1 : a;
+		};
+
+		this.`orMaxOf(Int)` = function(b) {
+			return$ a < b ? b : a;
+		};
+
+		this.`orMaxOf(Int[])` = function(b) {
+			var$ c = 0, d;
+			for(d = a; c < b.length; c++) {
+				if(a < b[c]) d = b[c];
+			}
+			return$ d;
+		};
+
+		this.`orMinOf(Int)` = function(b) {
+			return$ a > b ? b : a;
+		};
+
+		this.`orMinOf(Int[])` = function(b) {
+			var$ c = 0, d;
+			for(d = a; c < b.length; c++) {
+				if(a > b[c]) d = b[c];
+			}
+			return$ d;
+		};
+
+		this.`numberOfDigits()` = function(b) {
+			var$ b = 1, c = this.`abs()`();
+			while((c /= 10) > 1) b++;
+			return$ b;
+		};
+
+		this.`toText()` = function() {
+			return$ a+"";
+		};
+
+		this.`range()` = function(b) {
+			var$ c = [];
+			for(var$ i = a; i < b; ++i) c.push(i);
+			return$ c;
+		}
+
+		this.`times(fn())` = function(b) {
+			for(var$ i = 0; i < a; ++i) b();
+		}
+	};
+
+	~lang.Num~ = function$ ~lang.Num~(a) {
+
+		this.`isWithin(Num)Of(Num)` = function(b, c) {
+			return$ a > c - b && a < c + b;
 		};
 
 		this.`squared()` = function() {
@@ -104,10 +165,6 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			return$ a+"";
 		};
 
-		this.`modulo(Num)` = function(b) {
-			return$ a % b;
-		};
-
 	};
 
 	~lang.Text~ = function$ ~lang.Text~(a) {
@@ -136,7 +193,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			return$ a.length;
 		};
 
-		this.`substr(Num)` = this.`substr(Num,Num)` = function(b, c) {
+		this.`substr(Int)` = this.`substr(Int,Int)` = function(b, c) {
 			return$ a.slice(b, c);
 		};
 
@@ -144,7 +201,11 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			return$ /^(\-|\+)?([0-9]+(\.[0-9]+)?)$$/.test(a) ? parseFloat(a) : null;
 		};
 
-		this.`charAt(Num)` = function(b) {
+		this.`parseInt()` = function() {
+			return$ /^(\-|\+)?([0-9]+)$$/.test(a) ? parseInteger(a) : null;
+		};
+
+		this.`charAt(Int)` = function(b) {
 			return$ a[b];
 		};
 
@@ -198,7 +259,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			return$ false;
 		};
 
-		this.`sort(Num--(T,T))` = function(b) {
+		this.`sort(Int--(T,T))` = function(b) {
 			a.sort(b);
 		};
 
@@ -305,7 +366,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			return$ a;
 		};
 
-		this.`read(Num)` = function(e) {
+		this.`read(Int)` = function(e) {
 			var$ f = new$ Buffer(e);
 			if(!c) { throw$ Error("File$ no$ longer$ open"); }
 			fs.readSync(d, f, 0, e, b);
@@ -329,7 +390,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			b += e.length;
 		};
 
-		this.`writeUnsignedChar(Num)` = function(e) {
+		this.`writeUnsignedChar(Int)` = function(e) {
 			if(!c) { throw$ Error("File$ no$ longer$ open"); }
 			var$ f = new$ Buffer(1);
 			f.writeUInt8(e, 0);
@@ -347,7 +408,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			return$ b;
 		};
 
-		this.`seek(Num)` = function(e) {
+		this.`seek(Int)` = function(e) {
 			if(!c) {
 				throw$ Error("File$ no$ longer$ open");
 			}

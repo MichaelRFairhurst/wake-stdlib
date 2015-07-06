@@ -6,9 +6,9 @@ import std.UndefinedIndexException;
 @TestClass
 every UndefinedIndexExceptionTest is:
 
-	with public Num index = 0;
+	with public Int index = 0;
 
-	provides UndefinedIndexException, Num:index <- { return index; };
+	provides UndefinedIndexException, Int:index <- { return index; };
 
 	@Test
 	~[ test undefined index exception message as 0 ]~(Asserts) {
