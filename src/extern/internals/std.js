@@ -98,11 +98,11 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			var$ c = [];
 			for(var$ i = a; i < b; ++i) c.push(i);
 			return$ c;
-		}
+		};
 
 		this.`times(fn())` = function(b) {
 			for(var$ i = 0; i < a; ++i) b();
-		}
+		};
 	};
 
 	~lang.Num~ = function$ ~lang.Num~(a) {
