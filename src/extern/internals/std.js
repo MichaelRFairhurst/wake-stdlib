@@ -202,7 +202,7 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 		};
 
 		this.`parseInt()` = function() {
-			return$ /^(\-|\+)?([0-9]+)$$/.test(a) ? parseInteger(a) : null;
+			return$ /^(\-|\+)?([0-9]+)$$/.test(a) ? parseInt(a) : null;
 		};
 
 		this.`charAt(Int)` = function(b) {
