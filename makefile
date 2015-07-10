@@ -136,7 +136,7 @@ package: $(OBJECTFILES) $(TABLEFILES) $(RUNTESTS) $(JSOBJECTFILES) $(INTERNALJSO
 
 ## Compile our main executable ##
 bin/$(PROGRAM): $(OBJECTFILES) $(TABLEFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(RUNTESTS) $(JSOBJECTFILES) $(INTERNALJSOBJECTFILES) $(JSTABLEFILES) $(INTERNALTABLEFILES)
-	$(WAKE) -l -d $(TABLEDIR) -o bin/$(PROGRAM) $(OBJECTFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(JSOBJECTFILES) $(INTERNALJSOBJECTFILES) -c $(MAINCLASS) -m $(MAINMETHOD)
+	$(WAKE) -l -d $(TABLEDIR) $(OBJECTFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(JSOBJECTFILES) $(INTERNALJSOBJECTFILES) -c $(MAINCLASS) -m $(MAINMETHOD) -o bin/$(PROGRAM)
 
 
 ##
@@ -266,13 +266,13 @@ $(TABLEDIR)/%Verifier.table: $(OBJECTDIR)/%Mock.o
 # Mock source generation
 ##
 $(GENDIR)/wkto.gen.%Mock.wk: $(TABLEDIR)/%.table.md5
-	$(WOCKITO) -d $(TABLEDIR) -o $@ $(subst /,.,$*)
+	$(WOCKITO) -d $(TABLEDIR) $(subst /,.,$*) -o $@
 
 $(GENDIR)/wkto.gen/%Mock.wk: $(TABLEDIR)/%.table.md5
-	$(WOCKITO) -d $(TABLEDIR) -o $@ $(subst /,.,$*)
+	$(WOCKITO) -d $(TABLEDIR) $(subst /,.,$*) -o $@
 
 $(GENDIR)/wkto.gen/MockProvider.wk: $(MOCKS)
-	$(WOCKITO) -p -d $(TABLEDIR) -o $@ $(MOCKCLASSNAMES)
+	$(WOCKITO) -p -d $(TABLEDIR) $(MOCKCLASSNAMES) -o $@
 
 
 ##
