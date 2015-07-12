@@ -21,3 +21,5 @@ module std;
 extern System is:
 
 	exit(Int);
+
+	execAsync(Text cmd, fn(Text) callback);

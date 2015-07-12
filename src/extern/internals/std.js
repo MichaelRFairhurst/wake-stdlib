@@ -45,6 +45,12 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 			if(typeof$ process!='undefined' && typeof$ process.exit!='undefined')
 				process.exit(a);
 		};
+
+		this.`execAsync(Text,fn(Text))` = function(a, b) {
+			require('child_process').spawnAsync(a, function(c, o, e) {
+				b(o);
+			});
+		};
 	};
 
 	~lang.Int~ = function$ ~lang.Int~(a) {
