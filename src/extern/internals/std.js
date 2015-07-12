@@ -46,8 +46,8 @@ function$ $$B(a, b) { return$ a - b * Math.floor(a / b); }
 				process.exit(a);
 		};
 
-		this.`execAsync(Text,fn(Text))` = function(a, b) {
-			require('child_process').spawnAsync(a, function(c, o, e) {
+		this.`execAsync(Text,--(Text))` = function(a, b) {
+			require('child_process').exec(a, function(c, o, e) {
 				b(o);
 			});
 		};
