@@ -1,0 +1,37 @@
+module lang;
+#>
+# Source Code for the Original Compiler for the
+# Programming Language Wake
+#
+# Num.wk
+#
+# Licensed under the MIT license
+# See LICENSE.TXT for details
+#
+# Author: Michael Fairhurst
+# Revised By:
+#
+##
+
+import lang.Text;
+import lang.Bool;
+
+extern Num is:
+
+	Num -- floor();
+	Num -- ceil();
+	Num -- round();
+	Num -- squared();
+	Num -- abs();
+
+	Num -- orMaxOf(Num);
+	Num -- orMaxOf(Num[]);
+
+	Num -- orMinOf(Num);
+	Num -- orMinOf(Num[]);
+
+	Num -- numberOfDigits();
+
+	Text -- toText();
+
+	Bool -- isWithin(Num error)Of(target Num);

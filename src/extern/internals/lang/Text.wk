@@ -1,0 +1,46 @@
+module lang;
+#>
+# Source Code for the Original Compiler for the
+# Programming Language Wake
+#
+# Text.wk
+#
+# Licensed under the MIT license
+# See LICENSE.TXT for details
+#
+# Author: Michael Fairhurst
+# Revised By:
+#
+##
+
+import lang.Num;
+import lang.Char;
+import lang.Int;
+import lang.Char;
+
+extern Text is:
+
+	Text -- toUpper();
+	Text -- toLower();
+	Text -- switchCase();
+
+	Text -- trim();
+
+	Int -- getSize();
+
+	Text -- substr(Int start);
+	Text -- substr(Int start, Int end);
+
+	Num? -- parseNum();
+	Int? -- parseInt();
+
+	Char? -- charAt(Int);
+	Char[] -- toCharArray();
+
+	Text[] -- split(Text);
+	Text[] -- split(Char);
+
+	Int? -- indexOf(Text);
+	Int? -- indexOf(Char);
+
+	Text -- join(Text[]);

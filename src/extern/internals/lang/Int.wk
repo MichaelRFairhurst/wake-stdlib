@@ -1,0 +1,38 @@
+module lang;
+#>
+# Source Code for the Original Compiler for the
+# Programming Language Wake
+#
+# Int.wk
+#
+# Licensed under the MIT license
+# See LICENSE.TXT for details
+#
+# Author: Michael Fairhurst
+# Revised By:
+#
+##
+
+import lang.Text;
+import lang.Char;
+
+extern Int is:
+
+	Int -- squared();
+	Int -- abs();
+
+	Int -- orMaxOf(Int);
+	Int -- orMaxOf(Int[]);
+
+	Int -- orMinOf(Int);
+	Int -- orMinOf(Int[]);
+
+	Int -- numberOfDigits();
+
+	Text -- toText();
+
+	Int[] -- range(Int);
+	times(fn() whatToDo);
+
+	Char -- fromAsciiCode();
+

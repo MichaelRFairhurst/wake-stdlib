@@ -1,0 +1,31 @@
+module lang;
+#>
+# Source Code for the Original Compiler for the
+# Programming Language Wake
+#
+# Char.wk
+#
+# Licensed under the MIT license
+# See LICENSE.TXT for details
+#
+# Author: Michael Fairhurst
+# Revised By:
+#
+##
+
+import lang.Bool;
+import lang.Int;
+import lang.Text;
+
+extern Char is:
+
+	Char -- toUpper();
+	Char -- toLower();
+	Bool -- isUpper();
+	Bool -- isLower();
+	Bool -- isAlpha();
+	Bool -- isDigit();
+	Int -- toAsciiCode();
+
+	Text -- toText();
+	Text -- join(Text[]);

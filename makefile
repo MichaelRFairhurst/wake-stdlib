@@ -306,8 +306,9 @@ clean:
 # This stuff is special to the std lib
 ##
 
-bin/waketable/lang/Num.table bin/waketable/lang/Text.table bin/waketable/lang/Bool.table: src/extern/internals/lang/Primitives.wk
+# use % for . so that make treats all targets as being the result of one command (neat trick)
+bin/waketable/lang/Num%table bin/waketable/lang/Text%table bin/waketable/lang/Bool%table bin/waketable/lang/Char%table bin/waketable/lang/Int%table : src/extern/internals/lang/Num%wk src/extern/internals/lang/Text%wk src/extern/internals/lang/Bool%wk src/extern/internals/lang/Char%wk src/extern/internals/lang/Int%wk
 	mkdir bin/waketable/lang || :
-	$(WAKE) -t $< -d $(TABLEDIR)
+	$(WAKE) -t $^ -d $(TABLEDIR)
 
 bin/waketable/lang/List.table : bin/waketable/lang/Num.table bin/waketable/lang/Text.table bin/waketable/lang/Bool.table

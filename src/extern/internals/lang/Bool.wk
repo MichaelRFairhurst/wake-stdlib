@@ -1,0 +1,20 @@
+module lang;
+#>
+# Source Code for the Original Compiler for the
+# Programming Language Wake
+#
+# Bool.wk
+#
+# Licensed under the MIT license
+# See LICENSE.TXT for details
+#
+# Author: Michael Fairhurst
+# Revised By:
+#
+##
+
+import lang.Text;
+
+extern Bool is:
+
+	Text -- toText();
