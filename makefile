@@ -32,7 +32,6 @@ ifeq ($(OS),Windows_NT)
 	NODE := node.exe
 	WUNIT := node.exe wunit-compiler
 	WOCKITO := node.exe wockito-generator
-	MD5SUM := win/md5sums.exe -u
 	WGET := win/wget.exe
 	UNZIP := win/tar.exe -xvf
 	RMR := $(RM) /s
@@ -46,11 +45,9 @@ else
 	RMR := rm -rf
 endif
 ifeq ($(shell uname),Linux)
-	MD5SUM := md5sum
 	WGET := wget
 endif
 ifeq ($(shell uname),Darwin)
-	MD5SUM := md5
 	WGET := curl -o libs-latest.tar
 endif
 
@@ -118,8 +115,8 @@ endif
 # Calculate the mock artifacts based on what our dynamic
 # makefiles counted.
 ##
-MOCKOBJECTFILES := $(subst .table.md5,.o,$(subst $(TABLEDIR),$(OBJECTDIR),$(MOCKS)))
-MOCKCLASSNAMES := $(MOCKS:$(TABLEDIR)/%Mock.table.md5=%)
+MOCKOBJECTFILES := $(subst .table,.o,$(subst $(TABLEDIR),$(OBJECTDIR),$(MOCKS)))
+MOCKCLASSNAMES := $(MOCKS:$(TABLEDIR)/%Mock.table=%)
 # only link MockProvider if we have at least one mock
 ifneq ($(MOCKCLASSNAMES),)
 	MOCKPROVIDEROBJ := $(OBJECTDIR)/wkto.gen/MockProvider.o
@@ -152,19 +149,6 @@ bin/$(PROGRAM)-test: $(OBJECTFILES) $(TESTLIBRARYFILES) $(LIBRARYFILES) $(LIBRAR
 	$(WUNIT)
 	$(WAKE) bin/TestSuite.wk -d $(TABLEDIR) -o bin/TestSuite.o
 	$(WAKE) -l -d $(TABLEDIR) $(OBJECTFILES) $(TESTOBJECTFILES) $(JSOBJECTFILES) $(JSTESTOBJECTFILES) $(INTERNALJSOBJECTFILES) $(TESTLIBRARYFILES) $(LIBRARYFILES) $(LIBRARYMODULEFILES) $(MOCKOBJECTFILES) $(MOCKPROVIDEROBJ) bin/TestSuite.o -o bin/$(PROGRAM)-test -c TestSuite -m 'tests()'
-
-
-##
-# MD5 features. This lets make decide not to rebuild sources that depend
-# on other sources which changed, but only when the interface of that source
-# also changed.
-##
-to-md5 = $1 $(addsuffix .md5,$1)
-
-%.md5: % FORCE
-	@$(if $(filter-out $(shell cat $@ 2>/dev/null),$(shell $(MD5SUM) $*)),$(MD5SUM) $* > $@)
-
-FORCE:
 
 
 ##
@@ -254,10 +238,10 @@ $(TABLEDIR)/%Verifier.table: $(OBJECTDIR)/%Mock.o
 ##
 # Mock source generation
 ##
-$(GENDIR)/wkto.gen.%Mock.wk: $(TABLEDIR)/%.table.md5
+$(GENDIR)/wkto.gen.%Mock.wk: $(TABLEDIR)/%.table
 	$(WOCKITO) -d $(TABLEDIR) $(subst /,.,$*) -o $@
 
-$(GENDIR)/wkto.gen/%Mock.wk: $(TABLEDIR)/%.table.md5
+$(GENDIR)/wkto.gen/%Mock.wk: $(TABLEDIR)/%.table
 	$(WOCKITO) -d $(TABLEDIR) $(subst /,.,$*) -o $@
 
 $(GENDIR)/wkto.gen/MockProvider.wk: $(MOCKS)
@@ -288,7 +272,6 @@ clean:
 	$(RMR) bin/$(PROGRAM) || :
 	$(RMR) bin/$(PROGRAM)-test || :
 	$(RMR) $(GENDIR)/* || :
-	find . -name '*.md5' -delete
 
 
 ##
