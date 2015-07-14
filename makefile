@@ -87,8 +87,8 @@ JSTESTOBJECTFILES := ${JSTESTFILES:$(TESTDIR)/extern/js/%.wk=$(OBJECTDIR)/%.o}
 JSTABLEFILES := ${JSSOURCEFILES:$(SRCDIR)/extern/js/%.wk=$(TABLEDIR)/%.table}
 JSTESTTABLEFILES := ${JSTESTFILES:$(TESTDIR)/extern/js/%.wk=$(TABLEDIR)/%.table}
 
-INTERNALJSOBJECTFILES := ${INTERNALJSSOURCEFILES:$(SRCDIR)/extern/internals/%.js=$(OBJECTDIR)/%.o}
-INTERNALTABLEFILES := ${INTERNALSOURCEFILES:$(SRCDIR)/extern/internals/%.wk=$(TABLEDIR)/%.table}
+#INTERNALJSOBJECTFILES := ${INTERNALJSSOURCEFILES:$(SRCDIR)/extern/internals/%.js=$(OBJECTDIR)/%.o}
+#INTERNALTABLEFILES := ${INTERNALSOURCEFILES:$(SRCDIR)/extern/internals/%.wk=$(TABLEDIR)/%.table}
 
 
 ## ENTRY POINT ##
@@ -210,6 +210,11 @@ $(OBJECTDIR)/%.o: $(TABLEDIR)/%.table $(TESTDIR)/extern/js/%.wk
 ##
 # Internals (for wake std lib only, unless you are brave)
 ##
+# use % for . so that make treats all targets as being the result of one command (neat trick)
+bin/waketable/lang/Num%table bin/waketable/lang/Text%table bin/waketable/lang/Bool%table bin/waketable/lang/Char%table bin/waketable/lang/Int%table : src/extern/internals/lang/Num%wk src/extern/internals/lang/Text%wk src/extern/internals/lang/Bool%wk src/extern/internals/lang/Char%wk src/extern/internals/lang/Int%wk
+
+	mkdir bin/waketable/lang || :
+	$(WAKE) -t $^ -d $(TABLEDIR)
 $(TABLEDIR)/%.table: $(SRCDIR)/extern/internals/%.wk
 	$(WAKE) $< -d $(TABLEDIR) -t
 
@@ -277,10 +282,5 @@ clean:
 ##
 # This stuff is special to the std lib
 ##
-
-# use % for . so that make treats all targets as being the result of one command (neat trick)
-bin/waketable/lang/Num%table bin/waketable/lang/Text%table bin/waketable/lang/Bool%table bin/waketable/lang/Char%table bin/waketable/lang/Int%table : src/extern/internals/lang/Num%wk src/extern/internals/lang/Text%wk src/extern/internals/lang/Bool%wk src/extern/internals/lang/Char%wk src/extern/internals/lang/Int%wk
-	mkdir bin/waketable/lang || :
-	$(WAKE) -t $^ -d $(TABLEDIR)
 
 bin/waketable/lang/List.table : bin/waketable/lang/Num.table bin/waketable/lang/Text.table bin/waketable/lang/Bool.table
